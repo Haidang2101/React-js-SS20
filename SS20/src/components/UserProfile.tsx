@@ -1,49 +1,46 @@
 import React, { useState } from "react";
 
-type State = {
-  name: string;
-  email: string;
-};
+function UserProfile() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-export default function UserProfile() {
-  const [user, setUser] = useState<State>({ name: "", email: "" });
-  const [visible, setVisible] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setVisible(true);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    setSubmitted(true); 
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "400px", margin: "20px auto", padding: "20px", border: "1px solid #ddd", borderRadius: "8px" }}>
+      <h3>Thông tin người dùng</h3>
       <form onSubmit={handleSubmit}>
-        <h2>Nhập thông tin</h2>
         <input
           type="text"
-          value={user.name}
-          name="name"
           placeholder="Nhập tên"
-          onChange={handleChange}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ display: "block", marginBottom: "10px", width: "100%", padding: "8px" }}
         />
         <input
-          type="text"
-          value={user.email}
-          name="email"
+          type="email"
           placeholder="Nhập email"
-          onChange={handleChange}        />
-        <button type="submit">Gửi</button>
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{ display: "block", marginBottom: "10px", width: "100%", padding: "8px" }}
+        />
+        <button type="submit" style={{ background: "green", color: "white", padding: "8px 16px", border: "none", borderRadius: "4px" }}>
+          Gửi
+        </button>
       </form>
-      {visible && (
-        <div>
-          <div><strong>Tên:</strong> {user.name}</div>
-          <div><strong>Email:</strong> {user.email}</div>
+
+      {submitted && (
+        <div style={{ marginTop: "20px", padding: "10px", background: "#e6ffe6", borderRadius: "6px" }}>
+          <p><b>Tên:</b> {name}</p>
+          <p><b>Email:</b> {email}</p>
         </div>
       )}
     </div>
   );
 }
+
+export default UserProfile;
